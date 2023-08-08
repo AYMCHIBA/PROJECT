@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Grade Calculator</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+	/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 50px;
+  
+  }
+  
+  .container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #000;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  }
+fieldset{
+  width: 90%;
+
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0px solid #ddd;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th, td {
+  text-align: left;
+  padding: 20px;
+}
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #251d97;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 40%;
+    padding: 10px;
+    border-radius: 11px;
+    margin-bottom: 20px;
+  }
+  .grades-container{
+    border: 1px solid #251d97;
+    border-radius: 11px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 10%;
+  }
+
+  #grade-0,#grade-1,#grade-2,#grade-3,#grade-4,#grade-5,#grade-6,#grade-7,#grade-8{
+    border: 2px solid #232325;
+    border-radius: 11px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 30%;
+  
+  }
+  
+  button[type="submit"],
+  button {
+    display: block;
+    padding: 10px;
+    border-radius: 11px;
+    border: none;
+    background-color: #2631c7;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button[type="submit"]:hover,
+  button:hover {
+    background-color: #0473f3;
+    color: #fff;
+  }
+  .calculatorbutton:hover {
+    background-color: #0473f3;
+    color: #ff0000;
+  }
+  #error-message {
+    color: red;
+    margin-bottom: 20px;
+  }
+  
+  #gpa-display {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Media queries */
+  @media screen and (max-width: 768px) {
+    .container {
+      max-width: 90%;
+    }
+  }
+  
+  </style>
+	<link rel="stylesheet" href="buelltin.css">
+</head>
+<body>
+	<h1>Grade Calculator</h1>
+	<form id="grade-form">
+		<fieldset>
+			<legend>Entrer vos information:</legend>
+				<div style="overflow-x:auto;">
+					<table width="100%" >
+						<tr>
+							<td><label for="first-name">First name:</label></td>
+							<td><input type="text" id="first-name" name="first-name" required></td>
+						</tr>
+						<tr>
+							<td><label for="last-name">Last name:</label></td>
+							<td><input type="text" id="last-name" name="last-name" required></td>
+						</tr>
+						<tr>
+							<td><label for="id">ID:</label></td>
+							<td><input type="text" id="id" name="id" required></td>
+						</tr>
+						<tr>
+							<td><label for="num-courses">Number of courses:</label></td>
+							<td><input onkeyup="generateTable()" type="number" id="num-courses" name="num-courses" min="1" max="10" required></td>
+						</tr>
+					</table>
+				</div>
+		<table id="course-table" width="100%" ></table>
+		<div id="grades-container"></div>
+		<div id="gpa-display"></div>
+	</fieldset>
+	<button type="submit">Calculate average </button>
+    <button id="download" class="btn btn-secondary">Download PDF</button>
+    <button id="calculator" class="btn btn-secondary"><a  href="calculatrice1.html">Calculator</a></button>
+	</form>
+<script >
+	document.getElementById("grade-form").addEventListener("submit", function(event) {
+			event.preventDefault(); // prevent form from submitting
+			calculateGPA();
+		});
+
+		
+
+    function generateTable() {
+      // creates a <table> element and a <tbody> element
+      const tbl = document.getElementById("course-table");
+      const tblBody = document.createElement("tbody");
+      // creating all cells
+      for (let i = 0; i < document.getElementById("num-courses").value; i++)
+      {
+            // creates a table row
+            var j=i+1;
+            const row = document.createElement("tr");
+            var numCourses = document.getElementById("num-courses").value;
+            var gradesContainer = document.getElementById("course-table");
+            gradesContainer.innerHTML = ""; // clear previous inputs
+            var courseLabel = document.createElement("label");
+            courseLabel.for = "course-" + j;
+            courseLabel.innerHTML = "Course " + j + " name:";
+            var courseInput = document.createElement("input");
+            courseInput.type = "text";
+            courseInput.id = "course-" + j;
+            courseInput.name = "course-" + j;
+            courseInput.required = true;
+    
+            var gradeLabel = document.createElement("label");
+            gradeLabel.for = "grade-" + j;
+            gradeLabel.innerHTML = "Course " + j + " average:";
+            var gradeInput = document.createElement("input");
+            gradeInput.type = "float";
+            gradeInput.id = "grade-" + j;
+            gradeInput.name = "grade-" + j;
+            gradeInput.min = "0";
+            gradeInput.max = "20";
+            gradeInput.required = true;
+
+              let cell = document.createElement("td");
+              cell.appendChild(courseLabel);
+              row.appendChild(cell);
+              tblBody.appendChild(row);
+
+              cell = document.createElement("td");
+              cell.appendChild(courseInput);
+              row.appendChild(cell);
+              tblBody.appendChild(row);
+
+              cell = document.createElement("td");
+              cell.appendChild(gradeLabel);
+              row.appendChild(cell);
+              tblBody.appendChild(row);
+
+              cell = document.createElement("td");
+              cell.appendChild(gradeInput);
+              row.appendChild(cell);
+              tblBody.appendChild(row);
+      }
+      // put the <tbody> in the <table>
+      tbl.appendChild(tblBody);
+    }
+    
+		// function to calculate GPA based on the grades entered by the user
+function calculateGPA() {
+    var numCourses = document.getElementById("num-courses").value;
+    var totalGradePoints = 0;
+    var totalCredits = 0;
+
+    for (var i = 1; i <= numCourses; i++) {
+      var grade = parseFloat(document.getElementById("grade-" + i).value);
+      var credits = 3; // assuming all courses are 3 credits
+
+      totalGradePoints += grade * credits;
+      totalCredits += credits;
+    }
+
+    var gpa = totalGradePoints / totalCredits;
+
+    var gpaDisplay = document.getElementById("gpa-display");
+    gpaDisplay.textContent = "Your average  is " + gpa.toFixed(2);
+}
+
+
+
+function downloadPDF() {
+  // Get the HTML element to be converted to PDF
+  var html = document.querySelector("html");
+  SetTopMargin(0);
+  setPrintHeader(false);
+  // Create a new jsPDF instance
+  var doc = new jsPDF();
+
+  // Define some basic CSS styles for the PDF
+  var css = ".pdf-body { font-size: 12pt; margin: 20px; }";
+
+  // Convert HTML to PDF using the fromHTML() method
+  doc.fromHTML(html, 20, 20, { 'width': 550, 'elementHandlers': {} }, function() {
+    // Add the CSS styles to the PDF
+    doc.addHTML(css, function() {
+      // Save the PDF
+      doc.save("grade_calculator.pdf");
+    });
+  });
+}
+
+window.onload = function() {
+  document.getElementById("download").addEventListener("click", function() {
+    const invoice = document.getElementById("grade-form");
+    html2pdf()
+      .from(invoice)
+      .save();
+  });
+}
+
+</script>
+
+</body>
+</html>

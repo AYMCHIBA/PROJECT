@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+    <script src="your-script-file.js"></script>
+    <style>
+      body {
+    position:absolute;
+    background-image: url("Screenshot 2023-05-08 102637.png");
+    background-size: cover;
+    background-repeat: no-repeat; 
+  }
+  #login-box {
+        
+    transform:translate(500px,200px);
+background-color: #c2c2c2ea;
+border: 1px solid #1449f5d6;
+box-shadow: 0px 2px 4px rgba(26, 12, 227, 0.963);
+max-width: 900px;
+height: 300px;
+padding:15px;
+text-align: center;
+border-radius:50px;
+
+
+}
+  #logo {
+    margin-left: 30px;
+    margin-right: 70px translate(70x, -20px);
+    width: 300px;
+    opacity: 200%;
+  }
+  input[type="text"],
+  input[type="password"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+  }
+
+
+  input[type="submit"] {
+    margin-bottom: 10px;
+    background-color: #1229a8;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px;
+    margin-left: 8px;
+    width: 49%;
+    opacity: 0.9;
+    transition: all ease-in-out 0.5s;
+  }
+  input[type="submit"]:hover {
+    background-color: #3e8e41;
+    transform: scale(1.1);
+  }
+  a{
+    transform: translate(0px,500px);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+    color:#051366;
+    padding: 40px;
+    
+  }
+  a:hover{
+    text-decoration: underline;
+  }
+
+    </style>
+  
+    
+  </head>
+  <body>
+    <div id="login-box">
+      <img id="logo" src="preinscription-est-agadir (1).png" alt="Logo" />
+      <form id="login-form">
+        <input type="text" id="username" name="username" placeholder="username" />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+        />
+        <input type="submit" value="Login"  /><br>
+      <a  href="signup.html" >don´t have an account?sign up </a>
+      </form>
+    </div> 
+  <script>
+        function validateLogin() {
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+
+  // Check if all fields are filled
+  if (!username || !password) {
+    alert("Please fill in all fields");
+    return;
+  }
+
+  // Retrieve existing users from localStorage
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Check if the username and password match an existing user
+  let matchingUser = users.find((user) => user.username === username && user.password === password);
+  if (matchingUser) {
+    window.location.href = "buelltin3copy.html";
+    alert("Login successful!");
+    // Redirect to home page or logged-in area
+  } else {
+    alert("Invalid username or password. Please try again or create an account.");
+  }
+}
+
+document.getElementById("login-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  validateLogin();
+});
+</script>
+  </body>
+</html>

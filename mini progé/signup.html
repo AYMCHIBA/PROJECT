@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>page de signup</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+    position:fixed;
+   background-image: url("1515.jpeg");
+   background-repeat: no-repeat;
+   background-size:cover;
+   
+}
+ #login-box {
+   
+   transform:translate(0px,-140px);
+background-color: #c2c2c2de;
+border: 1px solid #1449f5d6;
+box-shadow: 0px 2px 4px rgba(26, 12, 227, 0.963);
+max-width: 500px;
+height: 650px;
+padding:15px;
+text-align: center;
+border-radius:50px;
+
+
+}
+#logo{
+ transform: translate(0px,100px);
+}
+
+ input[type="text"],
+ input[type="password"] {
+   border: 1px solid #ccc;
+   border-radius: 50px;
+   box-sizing: border-box;
+   font-size: 16px;
+   margin-bottom: 20px;
+   padding: 10px;
+   width: 100%;
+   transform: translate(0px,100px);
+ }
+ input[type="submit"] {
+   background-color: #384590;
+   border: none;
+   border-radius: 50px;
+   color: #fff;
+   cursor: pointer;
+   font-size: 16px;
+   padding: 10px;
+   width: 49%;
+   opacity:0.9;
+   transform: translate(0px,100px);
+   
+ } 
+
+ .quote{
+   background-color: #c2c2c200;
+border: 1px solid #1449f5d6;
+box-shadow: 0px 2px 4px rgba(26, 12, 227, 0.963);
+   text-align: center;
+   font-family:"Trebuchet MS", Helvetica, sans-serif;
+  transform:translate(700px,300px);
+ margin-bottom: 30px;
+ color:rgb(244, 247, 246);
+ font-size: 20px;
+box-shadow: wh;
+padding:4px
+ }
+
+
+    </style>
+  </head>
+  <body>
+    <div class="quote">
+      <h1>Welcom to the hight school of technologie <br>Agadir</h1>
+    </div>
+    <div id="login-box">
+      <img id="logo" src="preinscription-est-agadir (1).png" alt="Logo" />
+      <form>
+        <input
+          type="text"
+          id="username"
+          name="Username"
+          placeholder="Username"
+        />
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+        />
+        <input
+          type="password"
+          id="password-repeat"
+          name="password-repeat"
+          placeholder="Confirm Password"
+        />
+        <input type="submit" value="Sign up" onclick="validateSignup()"  />
+      </form>
+    </div>
+    <script>
+      function validateSignup() {
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let passwordRepeat = document.getElementById("password-repeat").value;
+  
+    // Check if all fields are filled
+    if (!username || !email || !password || !passwordRepeat) {
+      alert("Please fill in all fields");
+      return;
+    }
+  
+    // Check if password and repeated password match
+    if (password !== passwordRepeat) {
+      alert("Passwords do not match");
+      return;
+    }
+  
+    // Check if email is in valid format
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+  
+    // Check password strength
+    let passwordStrength = checkPasswordStrength(password);
+    if (passwordStrength < 2) {
+      alert("Please choose a stronger password");
+      return;
+    }
+  
+    // Retrieve existing users from localStorage
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+  
+    // Check if the email is already in use
+    let existingUser = users.find((user) => user.email === email);
+    if (existingUser) {
+      alert("Email is already in use");
+      return;
+    }
+  
+    // Add new user to the array
+    users.push({ username: username, email: email, password: password });
+  
+    // Store updated array in localStorage
+    localStorage.setItem("users", JSON.stringify(users));
+   // Redirect to login page
+   window.location.href = "login.html";
+    alert("Sign up successful!");
+  }
+  
+  function validateEmail(email) {
+    // A simple email validation regex
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  
+  function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.match(/[a-z]+/)) {
+      strength += 1;
+    }
+    if (password.match(/[A-Z]+/)) {
+      strength += 1;
+    }
+    if (password.match(/[0-9]+/)) {
+      strength += 1;
+    }
+    if (password.match(/[$@#&!]+/)) {
+      strength += 1;
+    }
+    return strength;
+  }
+  
+    </script>
+  </body>
+</html>
